@@ -14,8 +14,33 @@
     <link rel="icon" type="image/png" href="logo.png">
 
     <style>
+        :root {
+            --bg-color: #0b0b0f;
+            --text-color: #ffffff;
+            --card-bg: rgba(22, 22, 29, 0.8);
+            --border-color: rgba(255, 255, 255, 0.05);
+            --sub-text: #a0aec0;
+            --input-bg: #121218;
+        }
+
+        /* लाइट थीम वेरिएबल्स */
+        .light-mode {
+            --bg-color: #f4f6f9;
+            --text-color: #1a1a24;
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --border-color: rgba(0, 0, 0, 0.08);
+            --sub-text: #627d98;
+            --input-bg: #ffffff;
+        }
+
         html {
             scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: background-color 0.4s ease, color 0.4s ease;
         }
 
         @keyframes fadeInUp {
@@ -26,6 +51,20 @@
         .animated-card {
             animation: fadeInUp 0.8s ease forwards;
             opacity: 0;
+        }
+
+        .card-element {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            transition: all 0.4s ease;
+        }
+
+        .input-element {
+            background-color: var(--input-bg);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            transition: all 0.4s ease;
         }
 
         .btn-insta:hover {
@@ -41,7 +80,6 @@
         .form-input:focus {
             outline: none;
             border-color: #ff9f43 !important;
-            box-shadow: 0 0 10px rgba(255, 159, 67, 0.2);
         }
 
         /* --- LEFT SIDE 3 LINES FULL PAGE MENU --- */
@@ -74,8 +112,6 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(11, 11, 15, 0.98);
-            backdrop-filter: blur(25px);
             z-index: 1500;
             opacity: 0;
             pointer-events: none;
@@ -108,12 +144,38 @@
             margin-bottom: 35px;
         }
 
+        /* CLICK TO EXPAND ACCORDION DESIGN */
+        .accordion-header {
+            padding: 18px;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            text-align: left;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out, padding 0.3s ease;
+            padding: 0 15px;
+            text-align: left;
+            box-sizing: border-box;
+        }
+
+        .accordion-arrow {
+            font-size: 12px;
+            color: var(--sub-text);
+            transition: transform 0.3s ease;
+        }
+
         /* 3D Simulation Box Styles */
         .scene3d {
             width: 100%;
             height: 180px;
             perspective: 600px;
-            background: #121218;
             border-radius: 12px;
             display: flex;
             justify-content: center;
@@ -135,8 +197,8 @@
             width: 70px;
             height: 70px;
             border: 2px solid #ff9f43;
-            background: rgba(255, 159, 67, 0.1);
-            color: #ffffff;
+            background: rgba(255, 159, 67, 0.15);
+            color: var(--text-color);
             font-size: 9px;
             font-weight: bold;
             display: flex;
@@ -149,15 +211,9 @@
         .right  { transform: rotateY(90deg) translateZ(35px); border-color: #00adb5; }
         .top    { transform: rotateX(90deg) translateZ(35px); }
         .bottom { transform: rotateX(-90deg) translateZ(35px); }
-
-        /* थीम बदलने का डायनामिक क्लास */
-        .cyber-theme {
-            background-image: linear-gradient(rgba(10, 15, 30, 0.92), rgba(10, 15, 30, 0.92)), url('kali.png') !important;
-            background-color: #050b14 !important;
-        }
     </style>
 </head>
-<body id="main-body" style="text-align:center; font-family:sans-serif; margin:0; padding:0; background-color:#0b0b0f; color:#ffffff; background-image: linear-gradient(rgba(11, 11, 15, 0.9), rgba(11, 11, 15, 0.9)), url('kali.png'); background-attachment: fixed; background-position: center; background-repeat: no-repeat; background-size: contain; overflow-x: hidden; transition: all 0.5s ease;">
+<body id="main-body" style="text-align:center; font-family:sans-serif; margin:0; padding:0; background-image: linear-gradient(rgba(11, 11, 15, 0.9), rgba(11, 11, 15, 0.9)), url('kali.png'); background-attachment: fixed; background-position: center; background-repeat: no-repeat; background-size: contain; overflow-x: hidden;">
 
     <!-- LEFT SIDE 3 LINES INTERACTION -->
     <input type="checkbox" id="menu-toggle">
@@ -168,31 +224,95 @@
         <div class="menu-line line3"></div>
     </label>
 
-    <!-- HACKER THEME SWITCHER BUTTON -->
-    <button onclick="toggleTheme()" style="position:fixed; top:18px; left:65px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,159,67,0.3); color:#ff9f43; padding:4px 8px; border-radius:10px; font-size:10px; font-weight:bold; cursor:pointer; z-index:2000;">⚡ MODE</button>
+    <!-- NEW LIGHT / DARK SYSTEM TOGGLE BUTTON -->
+    <button onclick="toggleThemeMode()" style="position:fixed; top:18px; left:65px; background:rgba(255,159,67,0.15); border:1px solid #ff9f43; color:#ff9f43; padding:5px 10px; border-radius:12px; font-size:10px; font-weight:bold; cursor:pointer; z-index:2000; box-shadow: 0 2px 10px rgba(0,0,0,0.2);">🌓 THEME</button>
 
     <!-- FULL PAGE MENU CONTAINER -->
-    <div class="full-page-menu">
+    <div class="full-page-menu" style="background-color: var(--bg-color);">
         <div style="max-width: 400px; margin: 0 auto;">
             
-            <!-- FEATURE 1: BUDGET CALCULATOR -->
-            <div style="background-color: rgba(22, 22, 29, 0.85); padding: 22px; border-radius: 20px; margin-bottom: 25px; text-align: left; border: 1px solid rgba(255,159,67,0.2);">
+            <!-- SECTION 1: CIVIL CONSTRUCTION -->
+            <div class="card-element" style="padding: 20px; border-radius: 20px; margin-bottom: 20px; text-align: left; border-left: 5px solid #ff9f43;">
+                <h3 style="margin:0 0 6px 0; color:#ff9f43; font-size:16px;">🏗️ Civil Construction Legacy</h3>
+                <p style="margin:0; font-size:12px; color: var(--sub-text); line-height:1.5;">20+ years expertise in premium residential villas, commercial structures, and unbreakable load-bearing planning managed by structural experts.</p>
+            </div>
+
+            <!-- DYNAMIC TECH SECTION 1: SMART HOME & CS (CLICK TO EXPAND) -->
+            <div class="accordion-header card-element" style="border-left: 5px solid #00adb5;" onclick="toggleAccordion('tech-accordion', this)">
+                <h3 style="margin:0; color:#00adb5; font-size:16px;">💡 Smart Home & CS Solutions</h3>
+                <span class="accordion-arrow">▼</span>
+            </div>
+            <div id="tech-accordion" class="accordion-content">
+                <div class="card-element" style="padding: 15px; border-radius: 12px; margin-bottom: 20px; font-size: 13px; line-height: 1.6;">
+                    Integrating core Computer Science frameworks into properties:
+                    <br><span style="color:#00adb5;">•</span> Intelligent IoT Home Automation relays.
+                    <br><span style="color:#00adb5;">•</span> Highly realistic 3D Architectural Walkthroughs.
+                    <br><span style="color:#00adb5;">•</span> Centralized digital systems to monitor construction progress live.
+                </div>
+            </div>
+
+            <!-- DYNAMIC TECH SECTION 2: DIGITAL EXPERTISE (CLICK TO EXPAND) -->
+            <div class="accordion-header card-element" style="border-left: 5px solid #e1306c;" onclick="toggleAccordion('expertise-accordion', this)">
+                <h3 style="margin:0; color:#e1306c; font-size:16px;">💼 Tech & Design Expertise</h3>
+                <span class="accordion-arrow">▼</span>
+            </div>
+            <div id="expertise-accordion" class="accordion-content">
+                <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px;">
+                    <div class="card-element" style="padding: 12px; border-radius: 10px; border-left: 3px solid #ff9f43;">
+                        <h4 style="margin:0 0 2px 0; color:#ff9f43; font-size:13px;">🌐 Website Promotion</h4>
+                        <p style="margin:0; font-size:11px; color: var(--sub-text);">Professional responsive websites to boost corporate client conversion.</p>
+                    </div>
+                    <div class="card-element" style="padding: 12px; border-radius: 10px; border-left: 3px solid #00adb5;">
+                        <h4 style="margin:0 0 2px 0; color:#00adb5; font-size:13px;">📸 Pro Photo Editing</h4>
+                        <p style="margin:0; font-size:11px; color: var(--sub-text);">High-end background elimination and structural site retouching.</p>
+                    </div>
+                    <div class="card-element" style="padding: 12px; border-radius: 10px; border-left: 3px solid #e1306c;">
+                        <h4 style="margin:0 0 2px 0; color:#e1306c; font-size:13px;">🎨 Graphic Design</h4>
+                        <p style="margin:0; font-size:11px; color: var(--sub-text);">Heavy enterprise branding, modern custom logos, and layout assets.</p>
+                    </div>
+                    <div class="card-element" style="padding: 12px; border-radius: 10px; border-left: 3px solid #4caf50;">
+                        <h4 style="margin:0 0 2px 0; color:#4caf50; font-size:13px;">🎮 Game Development</h4>
+                        <p style="margin:0; font-size:11px; color: var(--sub-text);">Interactive mechanics, modular engine layouts, and physics spaces.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NEW ADVANCED SUGGESTION: ARCHITECTURAL BLUEPRINT ARCHIVE (CLICK TO EXPAND) -->
+            <div class="accordion-header card-element" style="border-left: 5px solid #9c27b0;" onclick="toggleAccordion('blueprint-accordion', this)">
+                <h3 style="margin:0; color:#9c27b0; font-size:16px;">🏢 2D/3D Map Blueprint Library</h3>
+                <span class="accordion-arrow">▼</span>
+            </div>
+            <div id="blueprint-accordion" class="accordion-content">
+                <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px;">
+                    <div class="card-element" style="padding: 12px; border-radius: 10px; display: flex; justify-content: space-between; align-items: center;">
+                        <span style="font-size:12px; font-weight:bold;">📍 Tech-Villa 3D Visual Map</span>
+                        <small style="color:#ff9f43; font-weight:bold;">View Model</small>
+                    </div>
+                    <div class="card-element" style="padding: 12px; border-radius: 10px; display: flex; justify-content: space-between; align-items: center;">
+                        <span style="font-size:12px; font-weight:bold;">📍 50x40 Commercial Complex Blueprint</span>
+                        <small style="color:#00adb5; font-weight:bold;">2D Layout</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FEATURE: BUDGET CALCULATOR -->
+            <div class="card-element" style="padding: 22px; border-radius: 20px; margin-bottom: 25px; text-align: left;">
                 <h3 style="margin: 0 0 12px 0; color: #ff9f43; font-size: 17px; text-align: center;">📊 Live Construction Calculator</h3>
                 <div style="display: flex; flex-direction: column; gap: 10px;">
                     <div>
-                        <label style="font-size: 11px; color: #a0aec0;">Plot Area (Sq. Ft.)</label>
-                        <input type="number" id="plot-size" value="1000" style="width:100%; box-sizing:border-box; padding:8px; background:#121218; border:1px solid #444; border-radius:6px; color:#fff;">
+                        <label style="font-size: 11px; color: var(--sub-text);">Plot Area (Sq. Ft.)</label>
+                        <input type="number" id="plot-size" value="1000" class="input-element" style="width:100%; box-sizing:border-box; padding:8px; border-radius:6px;">
                     </div>
                     <div>
-                        <label style="font-size: 11px; color: #a0aec0;">Material Quality</label>
-                        <select id="mat-quality" style="width:100%; box-sizing:border-box; padding:8px; background:#121218; border:1px solid #444; border-radius:6px; color:#fff;">
+                        <label style="font-size: 11px; color: var(--sub-text);">Material Quality</label>
+                        <select id="mat-quality" class="input-element" style="width:100%; box-sizing:border-box; padding:8px; border-radius:6px;">
                             <option value="1400">Standard (₹1,400/sqft)</option>
                             <option value="1800" selected>Premium Luxury (₹1,800/sqft)</option>
                         </select>
                     </div>
                     <button onclick="calculateBudget()" class="btn-action" style="background:#ff9f43; color:#121212; border:none; padding:10px; font-weight:900; border-radius:6px; cursor:pointer; margin-top:5px;">Calculate Estimate</button>
                     
-                    <div id="calc-result" style="margin-top: 10px; font-size: 13px; color: #d1d5db; border-top: 1px solid #333; padding-top: 10px; display: none;">
+                    <div id="calc-result" style="margin-top: 10px; font-size: 13px; border-top: 1px solid var(--border-color); padding-top: 10px; display: none;">
                         <strong>Estimated Breakdown:</strong>
                         <div style="margin-top: 5px;">• Total Cost: <span id="res-total" style="color:#ff9f43; font-weight:bold;"></span></div>
                         <div>• Cement & Steel (Est): <span id="res-material"></span></div>
@@ -202,11 +322,11 @@
                 </div>
             </div>
 
-            <!-- FEATURE 2: 3D SPATIAL SIMULATION -->
-            <div style="background-color: rgba(22, 22, 29, 0.85); padding: 22px; border-radius: 20px; margin-bottom: 25px; text-align: left; border: 1px solid rgba(0,173,181,0.2);">
+            <!-- FEATURE: 3D SPATIAL SIMULATION -->
+            <div class="card-element" style="padding: 22px; border-radius: 20px; margin-bottom: 25px; text-align: left;">
                 <h3 style="margin: 0 0 5px 0; color: #00adb5; font-size: 17px; text-align: center;">📐 Interactive 3D Spatial Box</h3>
-                <p style="font-size: 11px; color: #a0aec0; text-align: center; margin-bottom: 12px;">Drag / Swipe inside to check framing dimensions</p>
-                <div class="scene3d" id="scene-box">
+                <p style="font-size: 11px; color: var(--sub-text); text-align: center; margin-bottom: 12px;">Drag / Swipe inside to check framing dimensions</p>
+                <div class="scene3d" id="scene-box" style="background-color: var(--input-bg);">
                     <div class="cube3d" id="cube">
                         <div class="cube-face front">TECH</div>
                         <div class="cube-face back">CIVIL</div>
@@ -218,43 +338,32 @@
                 </div>
             </div>
 
-            <!-- FEATURE 3: CLIENT PROGRESS TRACKER -->
-            <div style="background-color: rgba(22, 22, 29, 0.85); padding: 22px; border-radius: 20px; margin-bottom: 25px; text-align: left; border: 1px solid rgba(255,255,255,0.06);">
-                <h3 style="margin: 0 0 12px 0; color: #ffffff; font-size: 17px; text-align: center;">🔐 Client Tracking Dashboard</h3>
+            <!-- FEATURE: CLIENT PROGRESS TRACKER -->
+            <div class="card-element" style="padding: 22px; border-radius: 20px; margin-bottom: 25px; text-align: left;">
+                <h3 style="margin: 0 0 12px 0; color: var(--text-color); font-size: 17px; text-align: center;">🔐 Client Tracking Dashboard</h3>
                 <div id="portal-login" style="display: flex; flex-direction: column; gap: 10px;">
-                    <input type="text" id="client-user" placeholder="Enter Client ID (Type: demo)" style="width:100%; box-sizing:border-box; padding:8px; background:#121218; border:1px solid #444; border-radius:6px; color:#fff;">
+                    <input type="text" id="client-user" placeholder="Enter Client ID (Type: demo)" class="input-element" style="width:100%; box-sizing:border-box; padding:8px; border-radius:6px;">
                     <button onclick="loginClient()" class="btn-action" style="background:#4caf50; color:#fff; border:none; padding:10px; font-weight:700; border-radius:6px; cursor:pointer;">Access Tracker</button>
                 </div>
-                <div id="portal-dashboard" style="display: none; font-size: 13px; color:#d1d5db;">
+                <div id="portal-dashboard" style="display: none; font-size: 13px;">
                     <span style="color:#4caf50; font-weight:bold;">✔ Welcome, Active Client</span>
-                    <div style="margin-top: 10px; background:#121218; padding: 10px; border-radius: 8px;">
+                    <div class="input-element" style="margin-top: 10px; padding: 10px; border-radius: 8px;">
                         <strong>Current Phase:</strong> <span style="color:#ff9f43;">Laying Roof Slabs (लिंटर)</span>
                         <div style="width: 100%; background: #333; height: 6px; border-radius: 3px; margin-top: 8px; overflow:hidden;">
                             <div style="width: 65%; background: #4caf50; height: 100%;"></div>
                         </div>
-                        <div style="font-size: 10px; color:#777; text-align:right; margin-top:2px;">65% Completed</div>
+                        <div style="font-size: 10px; color: var(--sub-text); text-align:right; margin-top:2px;">65% Completed</div>
                     </div>
                 </div>
             </div>
 
-            <!-- INFRA SERVICES & LEGACY BLOCKS -->
-            <div style="background-color: rgba(22, 22, 29, 0.8); padding: 20px; border-radius: 20px; margin-bottom: 20px; text-align: left; border-left: 5px solid #ff9f43;">
-                <h3 style="margin:0 0 6px 0; color:#ff9f43; font-size:16px;">🏗️ Civil Construction Legacy</h3>
-                <p style="margin:0; font-size:12px; color:#a0aec0; line-height:1.5;">20+ years expertise in premium residential villas, commercial structures, and unbreakable load-bearing planning.</p>
-            </div>
-
-            <div style="background-color: rgba(22, 22, 29, 0.8); padding: 20px; border-radius: 20px; margin-bottom: 25px; text-align: left; border-left: 5px solid #00adb5;">
-                <h3 style="margin:0 0 6px 0; color:#00adb5; font-size:16px;">💡 Smart Home Integrations</h3>
-                <p style="margin:0; font-size:12px; color:#a0aec0; line-height:1.5;">Embedding custom tech solutions: Advanced IoT automation relays, environment setup, and dynamic architectural visualizations.</p>
-            </div>
-
             <!-- DIRECT CONTACT FORM -->
-            <div style="background-color: rgba(22, 22, 29, 0.9); padding: 20px; border-radius: 20px; text-align: left; border: 1px solid rgba(255,255,255,0.06); margin-bottom: 20px;">
-                <h3 style="margin: 0 0 15px 0; color: #ffffff; font-size: 17px; text-align: center;">📩 Consult Our Experts</h3>
+            <div class="card-element" style="padding: 20px; border-radius: 20px; text-align: left; margin-bottom: 20px;">
+                <h3 style="margin: 0 0 15px 0; color: var(--text-color); font-size: 17px; text-align: center;">📩 Consult Our Experts</h3>
                 <form action="https://formspree.io/f/mvzjeege" method="POST" style="display: flex; flex-direction: column; gap: 12px;">
-                    <input type="text" name="name" placeholder="Your Name" required style="width: 100%; box-sizing: border-box; padding: 10px; background-color: #121218; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #ffffff; font-size: 13px;">
-                    <input type="email" name="email" placeholder="Your Contact Email" required style="width: 100%; box-sizing: border-box; padding: 10px; background-color: #121218; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #ffffff; font-size: 13px;">
-                    <textarea name="message" rows="3" placeholder="Describe plot dimensions or core tech needs..." required style="width: 100%; box-sizing: border-box; padding: 10px; background-color: #121218; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #ffffff; font-size: 13px; resize: none; font-family: sans-serif;"></textarea>
+                    <input type="text" name="name" placeholder="Your Name" required class="input-element" style="width: 100%; box-sizing: border-box; padding: 10px; border-radius: 8px; font-size: 13px;">
+                    <input type="email" name="email" placeholder="Your Contact Email" required class="input-element" style="width: 100%; box-sizing: border-box; padding: 10px; border-radius: 8px; font-size: 13px;">
+                    <textarea name="message" rows="3" placeholder="Describe plot dimensions or core tech needs..." required class="input-element" style="width: 100%; box-sizing: border-box; padding: 10px; border-radius: 8px; font-size: 13px; resize: none; font-family: sans-serif;"></textarea>
                     <button type="submit" style="background-color: #ff9f43; color: #121212; border: none; padding: 12px; font-weight: 900; border-radius: 8px; cursor: pointer; font-size: 14px;">🚀 Submit Data</button>
                 </form>
             </div>
@@ -266,12 +375,11 @@
     <!-- MAIN ULTRA-MINIMAL HOME PAGE CONTENT -->
     <div id="home" style="padding-top: 75px; padding-bottom: 20px; max-width: 450px; margin: 0 auto; box-sizing: border-box;">
         
-        <!-- AESTHETIC & SLIDER SLICK HEADER (AS REQUESTED) -->
+        <!-- HEADER -->
         <div style="margin-bottom: 30px; padding: 0 15px; animation: fadeInUp 0.6s ease forwards;">
             <img src="logo.png" alt="realkrsnn Logo" style="width: 75px; height: 75px; border-radius: 50%; object-fit: cover; border: 2px solid #ff9f43; margin-bottom: 12px; box-shadow: 0 0 20px rgba(255, 159, 67, 0.25);">
-            <!-- Minimal text look -->
             <h1 style="margin: 0 0 4px 0; color: #ff9f43; font-size: 26px; font-weight: 900; letter-spacing: 2px; text-transform: lowercase;">realkrsnn</h1>
-            <p style="margin: 0 auto; max-width: 280px; color: #a0aec0; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; line-height: 1.3;">
+            <p style="margin: 0 auto; max-width: 280px; color: var(--sub-text); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; line-height: 1.3;">
                 Tech-Driven Infrastructure & Construction Systems
             </p>
         </div>
@@ -286,20 +394,20 @@
 
         <!-- STATS MATRIX ON HOME -->
         <div style="padding: 0 15px; margin-bottom: 30px; animation: fadeInUp 0.8s ease forwards; animation-delay: 0.3s;">
-            <div style="background-color: rgba(22, 22, 29, 0.75); padding: 12px; border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); display: flex; justify-content: space-around;">
+            <div class="card-element" style="padding: 12px; border-radius: 16px; backdrop-filter: blur(10px); display: flex; justify-content: space-around;">
                 <div>
                     <h3 style="margin: 0; color: #ff9f43; font-size: 20px; font-weight: 900;">20+</h3>
-                    <p style="margin: 2px 0 0 0; color: #a0aec0; font-size: 9px; font-weight: 600; letter-spacing: 0.5px;">Years Legacy</p>
+                    <p style="margin: 2px 0 0 0; color: var(--sub-text); font-size: 9px; font-weight: 600; letter-spacing: 0.5px;">Years Legacy</p>
                 </div>
-                <div style="border-left: 1px solid rgba(255,255,255,0.1);"></div>
+                <div style="border-left: 1px solid var(--border-color);"></div>
                 <div>
                     <h3 style="margin: 0; color: #00adb5; font-size: 20px; font-weight: 900;">50+</h3>
-                    <p style="margin: 2px 0 0 0; color: #a0aec0; font-size: 9px; font-weight: 600; letter-spacing: 0.5px;">Sites Delivered</p>
+                    <p style="margin: 2px 0 0 0; color: var(--sub-text); font-size: 9px; font-weight: 600; letter-spacing: 0.5px;">Sites Delivered</p>
                 </div>
-                <div style="border-left: 1px solid rgba(255,255,255,0.1);"></div>
+                <div style="border-left: 1px solid var(--border-color);"></div>
                 <div>
                     <h3 style="margin: 0; color: #4caf50; font-size: 20px; font-weight: 900;">100%</h3>
-                    <p style="margin: 2px 0 0 0; color: #a0aec0; font-size: 9px; font-weight: 600; letter-spacing: 0.5px;">Trust Metric</p>
+                    <p style="margin: 2px 0 0 0; color: var(--sub-text); font-size: 9px; font-weight: 600; letter-spacing: 0.5px;">Trust Metric</p>
                 </div>
             </div>
         </div>
@@ -309,14 +417,14 @@
             <a href="https://instagram.com/realkrsnn" target="_blank" class="btn-insta" style="display: block; color: #ffffff; background-color: #e1306c; text-decoration: none; padding: 14px; font-weight: 700; border-radius: 12px; font-size: 14px; box-shadow: 0 5px 15px rgba(225, 48, 108, 0.25); transition: all 0.3s ease;">
                 📸 Instagram Media Portfolio
             </a>
-            <a href="mailto:kg4267976@gmail.com" class="btn-email" style="display: block; color: #121212; background-color: #ff9f43; text-decoration: none; padding: 14px; font-weight: 900; border-radius: 12px; font-size: 14px; box-shadow: 0 5px 15px rgba(255, 159, 67, 0.25); transition: all 0.3s ease;">
+            <a href="mailto:kg4267976@gmail.com" class="btn-email" style="display: block; color: #121212; background-color: #ff9f43; text-decoration: none; padding: 14px; font-weight: 900; border-radius: 14px; font-size: 14px; box-shadow: 0 5px 15px rgba(255, 159, 67, 0.25); transition: all 0.3s ease;">
                 📧 Email Corporate Office
             </a>
         </div>
 
     </div>
 
-    <!-- HIGHLY AESTHETIC DEVELOPER CREDIT CARD SECTION (AS REQUESTED) -->
+    <!-- DEVELOPER CREDIT CARD SECTION -->
     <div style="margin: 40px auto 20px auto; max-width: 350px; padding: 0 15px; animation: fadeInUp 0.8s ease forwards; animation-delay: 0.5s;">
         <div style="background: rgba(255, 159, 67, 0.03); border: 1px solid rgba(255,159,67,0.1); border-radius: 16px; padding: 15px; display: flex; align-items: center; justify-content: center; gap: 10px; backdrop-filter: blur(5px);">
             <div style="width: 6px; height: 6px; background-color: #4caf50; border-radius: 50%;"></div>
@@ -333,12 +441,37 @@
 
     <!-- JAVASCRIPT OPERATIONS -->
     <script>
-        // Theme Changer Dynamic Logic
-        function toggleTheme() {
-            document.getElementById('main-body').classList.toggle('cyber-theme');
+        // Full Light / Dark Dynamic Mode Logic
+        function toggleThemeMode() {
+            const bodyEl = document.getElementById('main-body');
+            bodyEl.classList.toggle('light-mode');
+            
+            if(bodyEl.classList.contains('light-mode')) {
+                bodyEl.style.backgroundImage = "linear-gradient(rgba(244, 246, 249, 0.95), rgba(244, 246, 249, 0.95))";
+            } else {
+                bodyEl.style.backgroundImage = "linear-gradient(rgba(11, 11, 15, 0.9), rgba(11, 11, 15, 0.9)), url('kali.png')";
+            }
         }
 
-        // 1. Live Budget Calculator Logic
+        // Toggle Accordion Panels Logic
+        function toggleAccordion(id, headerElement) {
+            const content = document.getElementById(id);
+            const arrow = headerElement.querySelector('.accordion-arrow');
+            
+            if (content.style.maxHeight && content.style.maxHeight !== "0px") {
+                content.style.maxHeight = "0px";
+                content.style.paddingTop = "0px";
+                content.style.paddingBottom = "0px";
+                arrow.style.transform = "rotate(0deg)";
+            } else {
+                content.style.maxHeight = content.scrollHeight + "px";
+                content.style.paddingTop = "10px";
+                content.style.paddingBottom = "10px";
+                arrow.style.transform = "rotate(180deg)";
+            }
+        }
+
+        // Live Budget Calculator Logic
         function calculateBudget() {
             const plotSize = parseFloat(document.getElementById('plot-size').value);
             const quality = parseFloat(document.getElementById('mat-quality').value);
@@ -361,7 +494,7 @@
             document.getElementById('calc-result').style.display = "block";
         }
 
-        // 2. Client Portal Login Logic
+        // Client Portal Login Logic
         function loginClient() {
             const user = document.getElementById('client-user').value.trim().toLowerCase();
             if(user === "demo") {
@@ -372,7 +505,7 @@
             }
         }
 
-        // 3. CSS 3D Box Interactive Drag Rotation
+        // CSS 3D Box Interactive Drag Rotation
         const scene = document.getElementById('scene-box');
         const cube = document.getElementById('cube');
         let isDragging = false;
