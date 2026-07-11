@@ -50,16 +50,16 @@
             box-shadow: 0 0 10px rgba(255, 159, 67, 0.2);
         }
 
-        /* --- 3 LINES FULL PAGE MENU LOGIC (PURE CSS) --- */
+        /* --- LEFT SIDE 3 LINES FULL PAGE MENU LOGIC --- */
         #menu-toggle {
-            display: none; /* हिडन चेकबॉक्स */
+            display: none;
         }
 
-        /* 3 लाइन्स वाला बटन डिज़ाइन */
+        /* 3 लाइन्स वाला बटन - अब LEFT HAND SIDE पर है */
         .menu-button {
             position: fixed;
-            top: 15px;
-            right: 15px;
+            top: 20px;
+            left: 20px;
             width: 30px;
             height: 22px;
             display: flex;
@@ -69,7 +69,6 @@
             z-index: 2000;
         }
 
-        /* रो-बाय-रो लाइन्स */
         .menu-line {
             width: 100%;
             height: 3px;
@@ -78,7 +77,7 @@
             transition: all 0.3s ease;
         }
 
-        /* फुल पेज स्क्रीन कवर करने वाला मेनू */
+        /* फुल पेज स्क्रीन कवर करने वाला स्क्रॉलेबल मेनू */
         .full-page-menu {
             position: fixed;
             top: 0;
@@ -86,37 +85,22 @@
             width: 100%;
             height: 100%;
             background-color: rgba(11, 11, 15, 0.98);
-            backdrop-filter: blur(20px);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            gap: 30px;
+            backdrop-filter: blur(25px);
             z-index: 1500;
             opacity: 0;
             pointer-events: none;
-            transform: scale(1.1);
+            transform: translateY(-20px);
             transition: all 0.4s ease;
+            overflow-y: auto; /* मेनू के अंदर स्क्रॉल करने के लिए ताकि कंटेंट न कटे */
+            box-sizing: border-box;
+            padding: 80px 20px 40px 20px;
         }
 
-        .menu-link {
-            color: #ffffff;
-            text-decoration: none;
-            font-size: 26px;
-            font-weight: 900;
-            letter-spacing: 2px;
-            transition: color 0.3s ease;
-        }
-
-        .menu-link:hover {
-            color: #ff9f43;
-        }
-
-        /* जब चेकबॉक्स टिक होगा -> मेनू ओपन होगा (पूरा पेज कवर) */
+        /* जब चेकबॉक्स टिक होगा -> मेनू ओपन होगा */
         #menu-toggle:checked ~ .full-page-menu {
             opacity: 1;
             pointer-events: auto;
-            transform: scale(1);
+            transform: translateY(0);
         }
 
         /* जब चेकबॉक्स टिक होगा -> 3 लाइन्स 'X' (क्रॉस) बन जाएँगी */
@@ -129,184 +113,148 @@
         #menu-toggle:checked ~ .menu-button .line3 {
             transform: translateY(-10px) rotate(-45deg);
         }
+
+        /* वीडियो प्लेयर की फुल विड्थ स्टाइल */
+        .full-screen-video {
+            width: 100vw;
+            margin-left: calc(-50vw + 50%);
+            margin-right: calc(-50vw + 50%);
+            max-width: 100vw;
+            border-radius: 0px;
+            display: block;
+            background-color: #000000;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.6);
+            margin-bottom: 35px;
+        }
     </style>
 </head>
-<body style="text-align:center; font-family:sans-serif; margin:0; padding:0; background-color:#0b0b0f; color:#ffffff; background-image: linear-gradient(rgba(11, 11, 15, 0.9), rgba(11, 11, 15, 0.9)), url('kali.png'); background-attachment: fixed; background-position: center; background-repeat: no-repeat; background-size: contain;">
+<body style="text-align:center; font-family:sans-serif; margin:0; padding:0; background-color:#0b0b0f; color:#ffffff; background-image: linear-gradient(rgba(11, 11, 15, 0.9), rgba(11, 11, 15, 0.9)), url('kali.png'); background-attachment: fixed; background-position: center; background-repeat: no-repeat; background-size: contain; overflow-x: hidden;">
 
-    <!-- 3 LINES SECTION & FULL PAGE OVERLAY -->
+    <!-- LEFT SIDE 3 LINES INTERACTION -->
     <input type="checkbox" id="menu-toggle">
     
-    <!-- 3 रो-बाय-रो लाइन्स बटन -->
     <label for="menu-toggle" class="menu-button">
         <div class="menu-line line1"></div>
         <div class="menu-line line2"></div>
         <div class="menu-line line3"></div>
     </label>
 
-    <!-- फुल पेज कवर मेनू (ओपन होने पर दिखेगा) -->
+    <!-- FULL PAGE MENU CONTAINER (बाकी सब इसके अंदर है) -->
     <div class="full-page-menu">
-        <!-- क्लिक करते ही मेनू बंद करने के लिए ऑनक्लिक लॉजिक लगाया है -->
-        <a href="#home" class="menu-link" onclick="document.getElementById('menu-toggle').checked = false;">HOME</a>
-        <a href="#about" class="menu-link" onclick="document.getElementById('menu-toggle').checked = false;">ABOUT</a>
-        <a href="#construction" class="menu-link" onclick="document.getElementById('menu-toggle').checked = false;">BUILDING</a>
-        <a href="#smart-tech" class="menu-link" onclick="document.getElementById('menu-toggle').checked = false;">SMART TECH</a>
-        <a href="#expertise" class="menu-link" onclick="document.getElementById('menu-toggle').checked = false;">EXPERTISE</a>
-        <a href="#contact" class="menu-link" onclick="document.getElementById('menu-toggle').checked = false;">CONTACT</a>
+        <div style="max-width: 400px; margin: 0 auto;">
+            
+            <!-- SECTION 1: ABOUT US -->
+            <div style="background-color: rgba(22, 22, 29, 0.8); padding: 22px; border-radius: 20px; margin-bottom: 25px; text-align: left; border: 1px solid rgba(255,255,255,0.06);">
+                <h2 style="margin: 0 0 10px 0; color: #ffffff; font-size: 18px; font-weight: 800;">👨‍💻 Our Legacy</h2>
+                <p style="margin: 0; color: #a0aec0; font-size: 13px; line-height: 1.6;">
+                    We bridge the gap between heavy physical engineering and advanced computer science. Blending 20+ years of trusted civil construction background with modern digital solutions.
+                </p>
+            </div>
+
+            <!-- SECTION 2: CIVIL CONSTRUCTION -->
+            <div style="background-color: rgba(22, 22, 29, 0.8); padding: 22px; border-radius: 20px; margin-bottom: 25px; text-align: left; border-left: 6px solid #ff9f43; border-top: 1px solid rgba(255,255,255,0.05);">
+                <h2 style="margin: 0 0 10px 0; color: #ff9f43; font-size: 18px; font-weight: 900;">🏗️ Civil Construction</h2>
+                <p style="margin: 0; color: #d1d5db; font-size: 13px; line-height: 1.6;">
+                    Expert building contractors for premium villas, structural planning, and colony development. We prioritize unbreakable structural integrity and material quality control.
+                </p>
+            </div>
+
+            <!-- SECTION 3: SMART HOMES -->
+            <div style="background-color: rgba(22, 22, 29, 0.8); padding: 22px; border-radius: 20px; margin-bottom: 25px; text-align: left; border-left: 6px solid #00adb5; border-top: 1px solid rgba(255,255,255,0.05);">
+                <h2 style="margin: 0 0 10px 0; color: #00adb5; font-size: 18px; font-weight: 900;">💡 Smart Home & CS Solutions</h2>
+                <p style="margin: 0; color: #d1d5db; font-size: 13px; line-height: 1.6;">
+                    Integrating CS frameworks into properties: Intelligent IoT Home Automation, 3D Architectural Walkthroughs, and live digital site trackers.
+                </p>
+            </div>
+
+            <!-- TECH EXPERTISE ZIG-ZAG LINKS -->
+            <h3 style="color:#ffffff; font-size: 18px; margin: 30px 0 15px 0;">💼 Tech & Design Expertise</h3>
+            
+            <div style="background: rgba(22, 22, 29, 0.8); padding: 15px; border-radius: 15px; margin-bottom: 15px; text-align: left; border-left: 4px solid #ff9f43;">
+                <h4 style="margin:0; color:#ff9f43; font-size:15px;">🌐 Website Promotion</h4>
+            </div>
+            <div style="background: rgba(22, 22, 29, 0.8); padding: 15px; border-radius: 15px; margin-bottom: 15px; text-align: right; border-right: 4px solid #00adb5;">
+                <h4 style="margin:0; color:#00adb5; font-size:15px;">📸 Pro Photo Editing</h4>
+            </div>
+            <div style="background: rgba(22, 22, 29, 0.8); padding: 15px; border-radius: 15px; margin-bottom: 15px; text-align: left; border-left: 4px solid #e1306c;">
+                <h4 style="margin:0; color:#e1306c; font-size:15px;">🎨 Graphic Design</h4>
+            </div>
+            <div style="background: rgba(22, 22, 29, 0.8); padding: 15px; border-radius: 15px; margin-bottom: 15px; text-align: right; border-right: 4px solid #4caf50;">
+                <h4 style="margin:0; color:#4caf50; font-size:15px;">🎮 Game Development</h4>
+            </div>
+            <div style="background: rgba(22, 22, 29, 0.8); padding: 15px; border-radius: 15px; margin-bottom: 30px; text-align: left; border-left: 4px solid #9c27b0;">
+                <h4 style="margin:0; color:#9c27b0; font-size:15px;">📐 3D Architectural Modeling</h4>
+            </div>
+
+            <!-- CONTACT FORM INSIDE MENU -->
+            <div style="background-color: rgba(22, 22, 29, 0.9); padding: 20px; border-radius: 20px; text-align: left; border: 1px solid rgba(255,255,255,0.06); margin-bottom: 20px;">
+                <h3 style="margin: 0 0 15px 0; color: #ffffff; font-size: 18px; text-align: center;">📩 Consult Our Experts</h3>
+                <form action="https://formspree.io/f/mvzjeege" method="POST" style="display: flex; flex-direction: column; gap: 12px;">
+                    <input type="text" name="name" placeholder="Your Name" required style="width: 100%; box-sizing: border-box; padding: 10px; background-color: #121218; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #ffffff; font-size: 13px;">
+                    <input type="email" name="email" placeholder="Your Contact Email" required style="width: 100%; box-sizing: border-box; padding: 10px; background-color: #121218; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #ffffff; font-size: 13px;">
+                    <textarea name="message" rows="3" placeholder="Explain your plot layout or tech requirements..." required style="width: 100%; box-sizing: border-box; padding: 10px; background-color: #121218; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #ffffff; font-size: 13px; resize: none; font-family: sans-serif;"></textarea>
+                    <button type="submit" style="background-color: #ff9f43; color: #121212; border: none; padding: 12px; font-weight: 900; border-radius: 8px; cursor: pointer; font-size: 14px;">🚀 Submit Requirements</button>
+                </form>
+            </div>
+            
+            <button onclick="document.getElementById('menu-toggle').checked = false;" style="background: transparent; border: 1px solid #ff9f43; color: #ff9f43; padding: 8px 16px; border-radius: 20px; font-weight: bold; cursor: pointer; font-size: 12px; margin-top: 10px;">✕ Close Menu</button>
+        </div>
     </div>
 
-    <!-- Main Content Wrapper -->
-    <div id="home" style="padding-top: 70px; padding-bottom: 50px; padding-left: 15px; padding-right: 15px; max-width: 400px; margin: 0 auto;">
+    <!-- MAIN HOME PAGE CONTENT (सिर्फ लोगो, नाम, फुल-स्क्रीन वीडियो और कनेक्ट लिंक्स) -->
+    <div id="home" style="padding-top: 80px; padding-bottom: 30px; max-width: 450px; margin: 0 auto; padding-left: 0px; padding-right: 0px; box-sizing: border-box;">
         
-        <!-- Brand Header -->
-        <div style="margin-bottom: 40px; animation: fadeInUp 0.6s ease forwards;">
-            <img src="logo.png" alt="realkrsnn Logo" style="width: 95px; height: 95px; border-radius: 50%; object-fit: cover; border: 3px solid #ff9f43; margin-bottom: 15px; box-shadow: 0 0 20px rgba(255, 159, 67, 0.3);">
-            <h1 style="margin: 0 0 8px 0; color: #ff9f43; font-size: 42px; font-weight: 900; letter-spacing: -1px; line-height: 1.1;">realkrsnn web 🚀</h1>
+        <!-- Brand Header Content -->
+        <div style="margin-bottom: 35px; padding: 0 15px; animation: fadeInUp 0.6s ease forwards;">
+            <img src="logo.png" alt="realkrsnn Logo" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 3px solid #ff9f43; margin-bottom: 15px; box-shadow: 0 0 20px rgba(255, 159, 67, 0.3);">
+            <h1 style="margin: 0 0 8px 0; color: #ff9f43; font-size: 44px; font-weight: 900; letter-spacing: -1px; line-height: 1.1;">realkrsnn web 🚀</h1>
             <p style="margin: 0 auto; max-width: 320px; color: #a0aec0; font-size: 15px; font-weight: 600; line-height: 1.4; letter-spacing: 0.5px;">
                 Next-Gen Construction & Tech Infrastructure
             </p>
         </div>
 
-        <!-- SECTION 1: ABOUT US -->
-        <div id="about" class="animated-card" style="background-color: rgba(22, 22, 29, 0.75); padding: 24px; border-radius: 20px; margin-bottom: 30px; text-align: left; border: 1px solid rgba(255, 255, 255, 0.06); box-shadow: 0 10px 30px rgba(0,0,0,0.5); backdrop-filter: blur(10px); animation-delay: 0.2s;">
-            <h2 style="margin: 0 0 12px 0; color: #ffffff; font-size: 20px; font-weight: 800; letter-spacing: 0.5px;">👨‍💻 About Our Legacy</h2>
-            <p style="margin: 0; color: #a0aec0; font-size: 14px; line-height: 1.6; font-weight: 500;">
-                We uniquely bridge the gap between heavy physical engineering and advanced computer science. By blending over 20+ years of trusted civil construction background with modern digital architecture, smart home automation, and 3D visual workflows, we craft infrastructures built for the future.
-            </p>
-        </div>
-
-        <!-- Video Showcase / Showreel -->
-        <div class="animated-card" style="background-color: rgba(22, 22, 29, 0.75); padding: 20px; border-radius: 20px; margin-bottom: 35px; text-align: left; border: 1px solid rgba(255, 255, 255, 0.06); box-shadow: 0 10px 30px rgba(0,0,0,0.5); backdrop-filter: blur(10px); animation-delay: 0.3s;">
-            <h2 style="margin: 0 0 15px 0; color: #ffffff; font-size: 20px; font-weight: 800; letter-spacing: 0.5px;">📺 Work Showcase</h2>
-            <video width="100%" controls style="border-radius: 12px; display: block; background-color: #000000; box-shadow: 0 5px 15px rgba(0,0,0,0.4);">
+        <!-- FULL WIDTH / FULL SCREEN VIDEO SHOWCASE -->
+        <div style="width: 100%; overflow: hidden; animation: fadeInUp 0.8s ease forwards; animation-delay: 0.2s;">
+            <video class="full-screen-video" controls>
                 <source src="work.mp4" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
         </div>
 
-        <!-- SECTION 2: CIVIL CONSTRUCTION -->
-        <div id="construction" class="animated-card" style="background-color: rgba(22, 22, 29, 0.75); padding: 24px; border-radius: 20px; margin-bottom: 30px; text-align: left; border-left: 6px solid #ff9f43; border-top: 1px solid rgba(255,255,255,0.05); border-right: 1px solid rgba(255,255,255,0.05); border-bottom: 1px solid rgba(255,255,255,0.05); box-shadow: 0 10px 30px rgba(0,0,0,0.5); backdrop-filter: blur(10px); animation-delay: 0.4s;">
-            <h2 style="margin: 0 0 12px 0; color: #ff9f43; font-size: 22px; font-weight: 900;">🏗️ Civil Construction</h2>
-            <p style="margin: 0; color: #d1d5db; font-size: 14px; line-height: 1.6; font-weight: 500;">
-                Expert building contractors specializing in premium residential villas, modern structural planning, commercial colonies, and turnkey building executions. We prioritize unbreakable structural integrity, meticulous material quality control, and timely site handovers.
-            </p>
-        </div>
-
-        <!-- SECTION 3: TECH INTEGRATION & SMART HOMES -->
-        <div id="smart-tech" class="animated-card" style="background-color: rgba(22, 22, 29, 0.75); padding: 24px; border-radius: 20px; margin-bottom: 35px; text-align: left; border-left: 6px solid #00adb5; border-top: 1px solid rgba(255,255,255,0.05); border-right: 1px solid rgba(255,255,255,0.05); border-bottom: 1px solid rgba(255,255,255,0.05); box-shadow: 0 10px 30px rgba(0,0,0,0.5); backdrop-filter: blur(10px); animation-delay: 0.5s;">
-            <h2 style="margin: 0 0 12px 0; color: #00adb5; font-size: 22px; font-weight: 900;">💡 Smart Home & CS Solutions</h2>
-            <p style="margin: 0; color: #d1d5db; font-size: 14px; line-height: 1.6; font-weight: 500;">
-                Integrating core Computer Science frameworks into custom real estate. We specialize in:
-                <br><span style="color:#00adb5;">•</span> Intelligent IoT Home Automation setups.
-                <br><span style="color:#00adb5;">•</span> Highly realistic 3D Architectural Walkthroughs.
-                <br><span style="color:#00adb5;">•</span> Custom centralized digital systems to monitor construction progress live.
-            </p>
-        </div>
-
-        <!-- STATISTICS MATRIX -->
-        <div class="animated-card" style="background-color: rgba(22, 22, 29, 0.75); padding: 20px; border-radius: 20px; margin-bottom: 40px; border: 1px solid rgba(255, 255, 255, 0.06); box-shadow: 0 10px 30px rgba(0,0,0,0.5); backdrop-filter: blur(10px); display: flex; justify-content: space-around; animation-delay: 0.6s;">
-            <div>
-                <h3 style="margin: 0; color: #ff9f43; font-size: 26px; font-weight: 900;">20+</h3>
-                <p style="margin: 5px 0 0 0; color: #a0aec0; font-size: 11px; font-weight: 600;">Years Legacy</p>
-            </div>
-            <div style="border-left: 1px solid rgba(255,255,255,0.1);"></div>
-            <div>
-                <h3 style="margin: 0; color: #00adb5; font-size: 26px; font-weight: 900;">50+</h3>
-                <p style="margin: 5px 0 0 0; color: #a0aec0; font-size: 11px; font-weight: 600;">Sites Delivered</p>
-            </div>
-            <div style="border-left: 1px solid rgba(255,255,255,0.1);"></div>
-            <div>
-                <h3 style="margin: 0; color: #4caf50; font-size: 26px; font-weight: 900;">100%</h3>
-                <p style="margin: 5px 0 0 0; color: #a0aec0; font-size: 11px; font-weight: 600;">Client Trust</p>
+        <!-- STATS MATRIX ON HOME -->
+        <div style="padding: 0 15px; margin-bottom: 35px; animation: fadeInUp 0.8s ease forwards; animation-delay: 0.3s;">
+            <div style="background-color: rgba(22, 22, 29, 0.75); padding: 15px; border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.06); backdrop-filter: blur(10px); display: flex; justify-content: space-around;">
+                <div>
+                    <h3 style="margin: 0; color: #ff9f43; font-size: 24px; font-weight: 900;">20+</h3>
+                    <p style="margin: 3px 0 0 0; color: #a0aec0; font-size: 11px; font-weight: 600;">Years Legacy</p>
+                </div>
+                <div style="border-left: 1px solid rgba(255,255,255,0.1);"></div>
+                <div>
+                    <h3 style="margin: 0; color: #00adb5; font-size: 24px; font-weight: 900;">50+</h3>
+                    <p style="margin: 3px 0 0 0; color: #a0aec0; font-size: 11px; font-weight: 600;">Sites Delivered</p>
+                </div>
+                <div style="border-left: 1px solid rgba(255,255,255,0.1);"></div>
+                <div>
+                    <h3 style="margin: 0; color: #4caf50; font-size: 24px; font-weight: 900;">100%</h3>
+                    <p style="margin: 3px 0 0 0; color: #a0aec0; font-size: 11px; font-weight: 600;">Trust</p>
+                </div>
             </div>
         </div>
 
-        <!-- SECTION 4: DIGITAL EXPERTISE -->
-        <h2 id="expertise" class="animated-card" style="text-align: center; font-size: 24px; font-weight: 900; margin-bottom: 30px; color: #ffffff; letter-spacing: 1px; animation-delay: 0.6s;">💼 Tech & Design Expertise</h2>
-
-        <!-- Zig-Zag 1: Website Promotion -->
-        <div class="animated-card" style="background-color: rgba(22, 22, 29, 0.75); padding: 22px; border-radius: 20px; margin-bottom: 25px; text-align: left; border-left: 6px solid #ff9f43; border-top: 1px solid rgba(255, 255, 255, 0.05); border-right: 1px solid rgba(255, 255, 255, 0.05); border-bottom: 1px solid rgba(255, 255, 255, 0.05); box-shadow: 0 10px 25px rgba(0,0,0,0.4); backdrop-filter: blur(10px); animation-delay: 0.7s;">
-            <h3 style="margin: 0 0 8px 0; color: #ff9f43; font-size: 20px; font-weight: 900;">🌐 Website Promotion</h3>
-            <p style="margin: 0; color: #d1d5db; font-size: 14px; line-height: 1.5; font-weight: 500;">
-                Get your business online with a professional, responsive, and fast website built to attract high-paying customers.
-            </p>
+        <!-- Home Quick Buttons -->
+        <div style="padding: 0 15px; display: flex; flex-direction: column; gap: 12px; animation: fadeInUp 0.8s ease forwards; animation-delay: 0.4s;">
+            <a href="https://instagram.com/realkrsnn" target="_blank" class="btn-insta" style="display: block; color: #ffffff; background-color: #e1306c; text-decoration: none; padding: 15px; font-weight: 700; border-radius: 14px; font-size: 15px; box-shadow: 0 5px 15px rgba(225, 48, 108, 0.35); transition: all 0.3s ease;">
+                📸 Instagram Portfolio
+            </a>
+            <a href="mailto:kg4267976@gmail.com" class="btn-email" style="display: block; color: #121212; background-color: #ff9f43; text-decoration: none; padding: 15px; font-weight: 900; border-radius: 14px; font-size: 15px; box-shadow: 0 5px 15px rgba(255, 159, 67, 0.35); transition: all 0.3s ease;">
+                📧 Email Us Directly
+            </a>
         </div>
-
-        <!-- Zig-Zag 2: Pro Photo Editing -->
-        <div class="animated-card" style="background-color: rgba(22, 22, 29, 0.75); padding: 22px; border-radius: 20px; margin-bottom: 25px; text-align: right; border-right: 6px solid #00adb5; border-top: 1px solid rgba(255, 255, 255, 0.05); border-left: 1px solid rgba(255, 255, 255, 0.05); border-bottom: 1px solid rgba(255, 255, 255, 0.05); box-shadow: 0 10px 25px rgba(0,0,0,0.4); backdrop-filter: blur(10px); animation-delay: 0.8s;">
-            <h3 style="margin: 0 0 8px 0; color: #00adb5; font-size: 20px; font-weight: 900;">📸 Pro Photo Editing</h3>
-            <p style="margin: 0; color: #d1d5db; font-size: 14px; line-height: 1.5; font-weight: 500;">
-                High-quality background removal, professional building site retouching, and viral-ready media edits.
-            </p>
-        </div>
-
-        <!-- Zig-Zag 3: Graphic Design -->
-        <div class="animated-card" style="background-color: rgba(22, 22, 29, 0.75); padding: 22px; border-radius: 20px; margin-bottom: 25px; text-align: left; border-left: 6px solid #e1306c; border-top: 1px solid rgba(255, 255, 255, 0.05); border-right: 1px solid rgba(255, 255, 255, 0.05); border-bottom: 1px solid rgba(255, 255, 255, 0.05); box-shadow: 0 10px 25px rgba(0,0,0,0.4); backdrop-filter: blur(10px); animation-delay: 0.9s;">
-            <h3 style="margin: 0 0 8px 0; color: #e1306c; font-size: 20px; font-weight: 900;">🎨 Graphic Design</h3>
-            <p style="margin: 0; color: #d1d5db; font-size: 14px; line-height: 1.5; font-weight: 500;">
-                Stunning corporate business logos, heavy corporate branding layouts, and eye-catching creative assets.
-            </p>
-        </div>
-
-        <!-- Zig-Zag 4: Game Development -->
-        <div class="animated-card" style="background-color: rgba(22, 22, 29, 0.75); padding: 22px; border-radius: 20px; margin-bottom: 25px; text-align: right; border-right: 6px solid #4caf50; border-top: 1px solid rgba(255, 255, 255, 0.05); border-left: 1px solid rgba(255, 255, 255, 0.05); border-bottom: 1px solid rgba(255, 255, 255, 0.05); box-shadow: 0 10px 25px rgba(0,0,0,0.4); backdrop-filter: blur(10px); animation-delay: 1.0s;">
-            <h3 style="margin: 0 0 8px 0; color: #4caf50; font-size: 20px; font-weight: 900;">🎮 Game Development</h3>
-            <p style="margin: 0; color: #d1d5db; font-size: 14px; line-height: 1.5; font-weight: 500;">
-                Creating fully interactive virtual spaces, immersive physics simulations, and smooth 3D environments.
-            </p>
-        </div>
-
-        <!-- Zig-Zag 5: 3D Design -->
-        <div class="animated-card" style="background-color: rgba(22, 22, 29, 0.75); padding: 22px; border-radius: 20px; margin-bottom: 40px; text-align: left; border-left: 6px solid #9c27b0; border-top: 1px solid rgba(255, 255, 255, 0.05); border-right: 1px solid rgba(255, 255, 255, 0.05); border-bottom: 1px solid rgba(255, 255, 255, 0.05); box-shadow: 0 10px 25px rgba(0,0,0,0.4); backdrop-filter: blur(10px); animation-delay: 1.1s;">
-            <h3 style="margin: 0 0 8px 0; color: #9c27b0; font-size: 20px; font-weight: 900;">📐 3D Architectural Modeling</h3>
-            <p style="margin: 0; color: #d1d5db; font-size: 14px; line-height: 1.5; font-weight: 500;">
-                Premium 3D house modeling, blueprints transformation, interior/exterior lighting renders, and environment creation.
-            </p>
-        </div>
-
-        <!-- CLIENT REVIEWS -->
-        <div style="background-color: rgba(22, 22, 29, 0.75); padding: 20px; border-radius: 20px; margin-bottom: 40px; text-align: left; border: 1px solid rgba(255, 255, 255, 0.06); box-shadow: 0 10px 25px rgba(0,0,0,0.4); backdrop-filter: blur(10px);">
-            <p style="margin: 0 0 10px 0; color: #d1d5db; font-size: 14px; font-style: italic; line-height: 1.5;">
-                "Excellent structural execution on our commercial property. The integrated smart lighting advice saved us lakhs!"
-            </p>
-            <h4 style="margin: 0; color: #ff9f43; font-size: 14px; font-weight: 800;">- Rajesh Patidar, Infrastructure Client</h4>
-        </div>
-
-        <!-- SECTION 5: CONTACT FORM -->
-        <div id="contact" class="animated-card" style="background-color: rgba(22, 22, 29, 0.75); padding: 24px; border-radius: 20px; margin-bottom: 25px; text-align: left; border: 1px solid rgba(255, 255, 255, 0.06); box-shadow: 0 10px 30px rgba(0,0,0,0.5); backdrop-filter: blur(10px); animation-delay: 1.2s;">
-            <h2 style="margin: 0 0 15px 0; color: #ffffff; font-size: 22px; font-weight: 800; text-align: center;">📩 Consult Our Experts</h2>
-            
-            <form action="https://formspree.io/f/mvzjeege" method="POST" style="display: flex; flex-direction: column; gap: 15px;">
-                <div>
-                    <label style="font-size: 13px; color: #a0aec0; font-weight: 600; display: block; margin-bottom: 5px;">Your Name</label>
-                    <input type="text" name="name" required class="form-input" style="width: 100%; box-sizing: border-box; padding: 12px; background-color: #121218; border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; color: #ffffff; font-size: 14px; transition: all 0.3s ease;">
-                </div>
-                <div>
-                    <label style="font-size: 13px; color: #a0aec0; font-weight: 600; display: block; margin-bottom: 5px;">Your Email / Contact</label>
-                    <input type="email" name="email" required class="form-input" style="width: 100%; box-sizing: border-box; padding: 12px; background-color: #121218; border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; color: #ffffff; font-size: 14px; transition: all 0.3s ease;">
-                </div>
-                <div>
-                    <label style="font-size: 13px; color: #a0aec0; font-weight: 600; display: block; margin-bottom: 5px;">Project Details (Building or Digital Service)</label>
-                    <textarea name="message" rows="4" required class="form-input" placeholder="Explain your building plot size, location or tech requirement..." style="width: 100%; box-sizing: border-box; padding: 12px; background-color: #121218; border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; color: #ffffff; font-size: 14px; font-family: sans-serif; resize: none; transition: all 0.3s ease;"></textarea>
-                </div>
-                <button type="submit" class="btn-submit" style="background-color: #ff9f43; color: #121212; border: none; padding: 14px; font-size: 15px; font-weight: 900; border-radius: 10px; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 12px rgba(255, 159, 67, 0.2); margin-top: 5px;">
-                    🚀 Submit Requirements
-                </button>
-            </form>
-        </div>
-
-        <!-- External Connections -->
-        <a href="https://instagram.com/realkrsnn" target="_blank" class="btn-insta animated-card" style="display: block; color: #ffffff; background-color: #e1306c; text-decoration: none; padding: 16px; font-weight: 700; border-radius: 14px; font-size: 16px; margin-bottom: 15px; box-shadow: 0 5px 15px rgba(225, 48, 108, 0.35); letter-spacing: 0.5px; transition: all 0.3s ease; text-align: center; animation-delay: 1.3s;">
-            📸 Follow on Instagram
-        </a>
-
-        <a href="mailto:kg4267976@gmail.com" class="btn-email animated-card" style="display: block; color: #121212; background-color: #ff9f43; text-decoration: none; padding: 16px; font-weight: 900; border-radius: 14px; font-size: 16px; box-shadow: 0 5px 15px rgba(255, 159, 67, 0.35); letter-spacing: 0.5px; transition: all 0.3s ease; text-align: center; animation-delay: 1.4s;">
-            📧 Email Us Directly
-        </a>
 
     </div>
 
     <!-- Footer -->
-    <div style="padding-bottom: 40px; color: #4a4a5a; font-size: 13px; font-weight: 600; letter-spacing: 0.5px;">
+    <div style="padding-top: 30px; padding-bottom: 30px; color: #4a4a5a; font-size: 12px; font-weight: 600; letter-spacing: 0.5px;">
         © 2026 realkrsnn web. All rights reserved.
     </div>
 
